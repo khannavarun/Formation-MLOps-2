@@ -27,6 +27,6 @@ jobs:
         run: vulture formation_indus_ds_avancee --min-confidence 100
       - name: Run tests
         #run:  "Trainee should add command to run test"
-        run: python -m pytest formation_indus_ds_avancee
+        run: python -m pytest tests/test_unit
 
 
