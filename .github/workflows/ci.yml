@@ -24,7 +24,11 @@ jobs:
       - name: Run Vulture
         run: vulture formation_indus_ds_avancee scripts --min-confidence 100
       - name: Run tests
-        run: python -m pytest tests/test_unit
-        run: behave tests/test_functional/features
-      # Add behave command
-
+        run: |
+          python -m pytest tests/test_unit
+          behave tests/test_functional/features
+      - name: Quality
+        run: |
+          python -m pytest --cov=formation_indus_ds_avancee/ tests/test_unit/ -vv -p no:warnings
+          ./tests/tests_pyramid.sh
+          
