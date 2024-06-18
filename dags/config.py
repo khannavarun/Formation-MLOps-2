@@ -14,3 +14,5 @@ FEATURES_PATH = os.path.join(DATA_FOLDER, 'prepared_features.parquet')
 
 MODEL_REGISTRY_FOLDER = os.path.join(PROJECT_FOLDER, 'models')
 MODEL_PATH = os.path.join(MODEL_REGISTRY_FOLDER, 'model.joblib')  # To change when needed
+MODEL_PATH_LATEST = os.path.join(MODEL_REGISTRY_FOLDER, 'latest.joblib')  # To change when needed
+
