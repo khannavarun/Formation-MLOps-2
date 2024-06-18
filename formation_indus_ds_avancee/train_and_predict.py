@@ -3,6 +3,8 @@ import time
 
 import joblib
 import mlflow
+from mlflow.models import infer_signature
+
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 
@@ -17,10 +19,19 @@ def train_model(features: pd.DataFrame, model_registry_folder: str) -> None:
     target = 'Ba_avg'
     X = features.drop(columns=[target])
     y = features[target]
+    mlflow.set_tracking_uri("http://0.0.0.0:49459")
     with mlflow.start_run():
         # insert autolog here ...
+        mlflow.sklearn.autolog()
         model = RandomForestRegressor(n_estimators=1, max_depth=10, n_jobs=1)
         model.fit(X, y)
+        signature = infer_signature(X, model.predict(X))
+        # Log models
+        mlflow.sklearn.log_model( model, 
+                                "rf_models", 
+                                signature=signature, 
+                                registered_model_name="sk-learn-random-forest-reg-model")
+
     time_str = time.strftime('%Y%m%d-%H%M%S')
     joblib.dump(model, os.path.join(model_registry_folder, time_str + '.joblib'))
 
